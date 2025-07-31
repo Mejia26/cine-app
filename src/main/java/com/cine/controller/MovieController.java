@@ -50,12 +50,11 @@ public class MovieController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteMovie(@PathVariable UUID id) {
-        try {
-            movieService.deleteMovie(id);
-            return ResponseEntity.noContent().build();
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
+    public ResponseEntity<String> deleteMovie(@PathVariable UUID id) {
+        if (!movieService.movieExists(id)) {
+            return ResponseEntity.status(404).body("Movie not found with id: " + id);
         }
+        movieService.deleteMovie(id);
+        return ResponseEntity.ok("Movie deleted successfully.");
     }
 }

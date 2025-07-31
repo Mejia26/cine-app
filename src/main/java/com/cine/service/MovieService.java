@@ -17,4 +17,6 @@ public interface MovieService {
     Movie updateMovie(UUID id, Movie updatedMovie);
 
     void deleteMovie(UUID id);
+    
+    boolean movieExists(UUID id);
 }
