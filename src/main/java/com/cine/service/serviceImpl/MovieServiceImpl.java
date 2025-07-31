@@ -46,16 +46,16 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public Movie updateMovie(UUID id, Movie updatedMovie) {
     	logger.info("updating a movie by id: " + id);
-        return movieRepository.findById(id)
-                .map(existing -> {
-                    existing.setTitle(updatedMovie.getTitle());
-                    existing.setDirector(updatedMovie.getDirector());
-                    existing.setGenre(updatedMovie.getGenre());
-                    existing.setReleaseDate(updatedMovie.getReleaseDate());
-                    existing.setRating(updatedMovie.getRating());
-                    return movieRepository.save(existing);
-                })
-                .orElseThrow(() -> new RuntimeException("Movie not found with id: " + id));
+    	return movieRepository.findById(id)
+    	        .map(existing -> {
+    	            existing.setTitle(updatedMovie.getTitle());
+    	            existing.setDirector(updatedMovie.getDirector());
+    	            existing.setGenre(updatedMovie.getGenre());
+    	            existing.setReleaseDate(updatedMovie.getReleaseDate());
+    	            existing.setRating(updatedMovie.getRating());
+    	            return movieRepository.save(existing);
+    	        })
+    	        .orElseThrow(() -> new RuntimeException("Movie not found with id: " + id));
     }
 
     @Override

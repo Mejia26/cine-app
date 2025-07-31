@@ -44,7 +44,7 @@ public class MovieController {
         try {
             Movie updated = movieService.updateMovie(id, movie);
             return ResponseEntity.ok(updated);
-        } catch (RuntimeException e) {
+        } catch (RuntimeException e) { // not found
             return ResponseEntity.notFound().build();
         }
     }
