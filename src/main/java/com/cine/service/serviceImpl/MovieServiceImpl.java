@@ -60,10 +60,14 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public void deleteMovie(UUID id) {
-    	logger.info("deleting a movie by id: "+ id);
         if (!movieRepository.existsById(id)) {
             throw new RuntimeException("Movie not found with id: " + id);
         }
         movieRepository.deleteById(id);
+    }
+    
+    @Override
+    public boolean movieExists(UUID id) {
+        return movieRepository.existsById(id);
     }
 }
