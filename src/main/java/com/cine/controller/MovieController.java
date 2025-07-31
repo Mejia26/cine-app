@@ -21,11 +21,6 @@ public class MovieController {
         this.movieService = movieService;
     }
 
-    @GetMapping
-    public ResponseEntity<List<Movie>> getAllMovies() {
-        return ResponseEntity.ok(movieService.getAllMovies());
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<Movie> getMovieById(@PathVariable UUID id) {
         return movieService.getMovieById(id)
@@ -56,5 +51,15 @@ public class MovieController {
         }
         movieService.deleteMovie(id);
         return ResponseEntity.ok("Movie deleted successfully.");
+    }
+    
+    @GetMapping
+    public ResponseEntity<List<Movie>> getMovies(
+            @RequestParam(required = false) String genre,
+            @RequestParam(required = false) String director,
+            @RequestParam(required = false, defaultValue = "asc") String sort
+    ) {
+        List<Movie> result = movieService.getMovies(genre, director, sort);
+        return ResponseEntity.ok(result);
     }
 }

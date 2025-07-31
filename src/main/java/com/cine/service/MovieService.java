@@ -8,8 +8,6 @@ import com.cine.model.Movie;
 
 public interface MovieService {
 
-    List<Movie> getAllMovies();
-
     Optional<Movie> getMovieById(UUID id);
 
     Movie createMovie(Movie movie);
@@ -19,4 +17,7 @@ public interface MovieService {
     void deleteMovie(UUID id);
     
     boolean movieExists(UUID id);
+    
+    List<Movie> getMovies(String genre, String director, String sort);
+
 }
