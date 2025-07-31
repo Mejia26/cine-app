@@ -1,5 +1,6 @@
 package com.cine.service.serviceImpl;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -23,12 +24,6 @@ public class MovieServiceImpl implements MovieService {
     @Autowired
     public MovieServiceImpl(MovieRepository movieRepository) {
         this.movieRepository = movieRepository;
-    }
-
-    @Override
-    public List<Movie> getAllMovies() {
-    	logger.info("retrieving list of movies");
-        return movieRepository.findAll();
     }
 
     @Override
@@ -69,5 +64,37 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public boolean movieExists(UUID id) {
         return movieRepository.existsById(id);
+    }
+    
+    
+    @Override
+    public List<Movie> getMovies(String genre, String director, String sort) {
+    	logger.info("retrieving list of movies");
+
+        List<Movie> all = movieRepository.findAll();
+
+        if (genre != null && !genre.isBlank()) {
+            all = all.stream()
+                    .filter(m -> m.getGenre().equalsIgnoreCase(genre))
+                    .toList();
+        }
+
+        if (director != null && !director.isBlank()) {
+            all = all.stream()
+                    .filter(m -> m.getDirector().equalsIgnoreCase(director))
+                    .toList();
+        }
+
+        if ("asc".equalsIgnoreCase(sort)) {
+            all = all.stream()
+                    .sorted(Comparator.comparing(Movie::getReleaseDate))
+                    .toList();
+        } else if ("desc".equalsIgnoreCase(sort)) {
+            all = all.stream()
+                    .sorted(Comparator.comparing(Movie::getReleaseDate).reversed())
+                    .toList();
+        }
+
+        return all;
     }
 }
